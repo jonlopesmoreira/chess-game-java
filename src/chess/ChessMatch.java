@@ -9,13 +9,32 @@ import chess.pieces.Rook;
 public class ChessMatch 
 {
 	private Board board;
+	private int turn;
+	private Color currentPlayer;
 	
 	public ChessMatch()
 	{
+		this.turn=1;
+		this.currentPlayer=Color.WHITE;
 		this.board = new Board(8,8);
 		this.initialSetup();
 	}
 	
+	public int getTurn()
+	{
+		return this.turn;
+	}
+	
+	public void nextTurn()
+	{
+		this.turn++;
+		this.currentPlayer = (this.currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+	}
+	
+	public Color getCurrentPlayer()
+	{
+		return this.currentPlayer;
+	}
 	public ChessPiece[][] getPieces()
 	{
 		ChessPiece[][] matriz = new ChessPiece[board.getRows()] [board.getCols()];
@@ -43,6 +62,7 @@ public class ChessMatch
 		validateSourcePosition(source);
 		validateTargetPosition(source, target);
 		Piece capturedPiece = makeMove(source, target);
+		this.nextTurn();
 		return (ChessPiece) capturedPiece;
 	}
 	
@@ -51,6 +71,11 @@ public class ChessMatch
 		if(!board.thereIsAPiece(position))
 		{
 			throw new ChessException("There is no piece on source position");
+		}
+		
+		if(this.currentPlayer != ((ChessPiece) board.piece(position)).getColor())
+		{
+			throw new ChessException("Wrong piece, this piece is not yours");
 		}
 		if(!board.piece(position).isThereAnyPossibleMove())
 		{
