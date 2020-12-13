@@ -8,12 +8,29 @@ public abstract class ChessPiece extends Piece
 {
 
 	private Color color;
+	private int moveCount;
+	
 	public ChessPiece(Board board, Color color) 
 	{
 		super(board);
 		this.color = color;
 		// TODO Auto-generated constructor stub
 	}
+	
+	public int getMoveCount()
+	{
+		return this.moveCount;
+	}
+	public void increaseMoveCount()
+	{
+		this.moveCount++;
+	}
+	
+	public void decreaseMoveCount()
+	{
+		this.moveCount--;
+	}
+	
 	
 	public Color getColor() 
 	{
@@ -30,4 +47,7 @@ public abstract class ChessPiece extends Piece
 	{
 		return ChessPosition.fromPosition(position);
 	}
+	
+	
+	
 }
